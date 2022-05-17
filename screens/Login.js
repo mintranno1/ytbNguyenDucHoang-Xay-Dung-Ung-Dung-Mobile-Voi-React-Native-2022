@@ -3,11 +3,22 @@ import { Text, View, Image, ImageBackground, TextInput, TouchableOpacity, Keyboa
 import { UIButton } from '../components';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { colors, fontSize, images, icons } from '../constants';
-
-
+import { isValidEmail, isValidPassword } from '../utilies/Validations';
 
 const Login = (props) => {
 	const [keyboardDidShow, setKeyboardDidShow] = useState(false)
+
+	// State for validating
+	const [errEmail, setErrEmail] = useState('')
+	const [errPassword, setErrPassword] = useState('')
+
+	// State to state email/password
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+
+	const isValidationOK = () => email.length > 0 	&& password.length > 0
+													&& isValidEmail(email) == true
+													&& isValidPassword(password) == true
 
 	useEffect(() => {
 		Keyboard.addListener('keyboardDidShow', () => {
@@ -63,6 +74,16 @@ const Login = (props) => {
 						color: 'black'
 					}}>Email:</Text>
 					<TextInput
+						onChangeText={(text) => {
+							// if(ValidateEmail(text) == false){
+							// 	setErrEmail('Email not in correct format')
+							// }else{
+							// 	setErrEmail('')
+							// }
+							// setPassword(text)
+							setErrEmail(isValidEmail(text) == true ? '' : 'Email not in correct format')
+							setEmail(text)
+						}}
 						style={{
 							height: 40,
 							fontSize: fontSize.h2
@@ -71,6 +92,12 @@ const Login = (props) => {
 						placeholderTextColor={colors.placeholder}
 					/>
 					<View style={{ width: '100%', height: 1, backgroundColor: colors.primary }} />
+					<Text style={{
+						color: colors.primary,
+						fontSize: fontSize.h5,
+						marginTop: 10,
+						fontWeight: 'bold'
+					}}>{errEmail}</Text>
 				</View>
 				<View style={{
 					marginTop: 15
@@ -80,6 +107,11 @@ const Login = (props) => {
 						color: 'black'
 					}}>Password:</Text>
 					<TextInput
+						onChangeText={(pass) => {
+
+							setErrPassword(isValidPassword(pass) == true ? '' : 'Password must be at least 3 characters')
+							setPassword(pass)
+						}}
 						style={{
 							height: 40,
 							fontSize: fontSize.h2
@@ -90,52 +122,61 @@ const Login = (props) => {
 
 					/>
 					<View style={{ width: '100%', height: 1, backgroundColor: colors.primary }} />
+					<Text style={{
+						color: colors.primary,
+						fontSize: fontSize.h5,
+						marginTop: 10,
+						fontWeight: 'bold'
+					}}>{errPassword}</Text>
 				</View>
 
 			</View>
-			{ keyboardDidShow == false && <View style={{
-					flex: 20
-				}}>
-					<TouchableOpacity
-						onPress={() => {
-							alert('press login')
-						}}
+			{keyboardDidShow == false && <View style={{
+				flex: 20
+			}}>
+				<TouchableOpacity
+					disabled = {isValidationOK() == false}
+					
+					onPress={() => {
+						alert(`Email: ${email} - Pass: ${password}`)
+					}}
+					style={{
+						backgroundColor: isValidationOK() == true ? colors.primary : colors.inactive,
+						justifyContent: 'center',
+						alignItems: 'center',
+						width: '50%',
+						alignSelf: 'center',
+						borderRadius: 15
+					}}
+				>
+					<Text
 						style={{
-							backgroundColor: colors.primary,
-							justifyContent: 'center',
-							alignItems: 'center',
-							width: '50%',
-							alignSelf: 'center',
-							borderRadius: 15
+							padding: 8,
+							color: colors.white,
+							fontWeight: 'bold',
+							fontSize: fontSize.h2
 						}}
-					>
-						<Text
-							style={{
-								padding: 8,
-								color: colors.white,
-								fontWeight: 'bold',
-								fontSize: fontSize.h2
-							}}
-						>Login</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => {
-							alert('press register')
+					>Login</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					onPress={() => {
+						alert('press register')
+					}}
+					style={{ padding: 5 }}
+				>
+					<Text
+						style={{
+							padding: 8,
+							fontSize: fontSize.h3,
+							color: colors.primary,
+							alignSelf: 'center'
 						}}
-						style={{ padding: 5 }}
-					>
-						<Text
-							style={{
-								padding: 8,
-								fontSize: fontSize.h3,
-								color: colors.primary,
-								alignSelf: 'center'
-							}}
-						>New user? Register now</Text>
-					</TouchableOpacity>
-				</View>
+					>New user? Register now</Text>
+				</TouchableOpacity>
+			</View>
 			}
-			<View style={{
+
+			{keyboardDidShow == false && <View style={{
 				flex: 20,
 
 			}}>
@@ -165,6 +206,7 @@ const Login = (props) => {
 					<Icon name='google' size={35} color={colors.google} />
 				</View>
 			</View>
+			}
 		</View>
 	</KeyboardAvoidingView>
 }
