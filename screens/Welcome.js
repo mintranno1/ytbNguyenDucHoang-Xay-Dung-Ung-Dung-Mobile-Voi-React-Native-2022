@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { Text, View, Image, ImageBackground } from 'react-native';
 import { UIButton } from '../components';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { colors, fontSize } from '../constants';
+import { colors, fontSize, images, icons} from '../constants';
 
 const Welcome = (props) => {
 
@@ -28,7 +28,7 @@ const Welcome = (props) => {
         flex: 100
     }}>
         <ImageBackground
-            source={require(`../assets/images/background/welcome-bg.jpg`)}
+            source={images.background}
             resizeMode='cover'
             style={{
                 flex: 1
@@ -46,7 +46,7 @@ const Welcome = (props) => {
                     justifyContent: 'flex-start',
                     alignItems: 'center',
                 }}><Image
-                        source={require('../assets/images/icons/salad.png')}
+                        source={icons.iconWelcome}
                         style={{
                             width: 40,
                             height: 40
