@@ -1,10 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Image, Keyboard, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+	Text,
+	View,
+	Image,
+	ImageBackground,
+	TextInput,
+	TouchableOpacity,
+	Keyboard,
+	KeyboardAvoidingView
+} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { colors, fontSize, images } from '../constants';
+import { colors, fontSize, images, icons } from '../constants';
 import { isValidEmail, isValidPassword } from '../utilies/Validations';
 
-const Login = (props) => {
+const Register = (props) => {
+
 	const [keyboardDidShow, setKeyboardDidShow] = useState(false)
 
 	// State for validating
@@ -15,9 +26,9 @@ const Login = (props) => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
-	const isValidationOK = () => email.length > 0 	&& password.length > 0
-													&& isValidEmail(email) == true
-													&& isValidPassword(password) == true
+	const isValidationOK = () => email.length > 0 && password.length > 0
+		&& isValidEmail(email) == true
+		&& isValidPassword(password) == true
 
 	useEffect(() => {
 		Keyboard.addListener('keyboardDidShow', () => {
@@ -30,30 +41,26 @@ const Login = (props) => {
 		})
 	})
 
-	return <KeyboardAvoidingView
-		behavior={Platform.OS === "ios" ? "padding" : "height"}
-		style={{
-			flex: 100,
-			backgroundColor: 'white'
-		}}>
+	return <KeyboardAwareScrollView style={{ backgroundColor: colors.primary }}>
 		<View style={{
 			flex: 100,
-			backgroundColor: 'white',
 			marginHorizontal: 15
 		}}>
 			<View style={{
-				flex: 35,
+				flex: 40,
 				height: 350,
 				flexDirection: 'row',
 				alignItems: 'center',
-				justifyContent: 'space-between'
+				justifyContent: 'space-between',
+				backgroundColor: 'green'
+
 			}}>
 				<Text style={{
-					color: colors.primary,
+					color: 'white',
 					fontWeight: 'bold',
 					fontSize: 46,
 					flex: 1
-				}}>Already have an Account?</Text>
+				}}>Already have an Account ?</Text>
 				<Image
 					style={{
 						width: 400,
@@ -65,12 +72,14 @@ const Login = (props) => {
 					} />
 			</View>
 			<View style={{
-				flex: 25
+				flex: 30,
+				backgroundColor: 'yellow'
 			}}>
 				<View>
 					<Text style={{
 						fontSize: fontSize.h3,
-						color: 'black'
+						color: 'black',
+
 					}}>Email:</Text>
 					<TextInput
 						onChangeText={(text) => {
@@ -99,7 +108,7 @@ const Login = (props) => {
 					}}>{errEmail}</Text>
 				</View>
 				<View style={{
-					marginTop: 15
+					marginTop: 5
 				}}>
 					<Text style={{
 						fontSize: fontSize.h3,
@@ -128,14 +137,45 @@ const Login = (props) => {
 						fontWeight: 'bold'
 					}}>{errPassword}</Text>
 				</View>
+				<View style={{
+					marginTop: 5
+				}}>
+					<Text style={{
+						fontSize: fontSize.h3,
+						color: 'black'
+					}}>Retype Password:</Text>
+					<TextInput
+						onChangeText={(pass) => {
+
+							setErrPassword(isValidPassword(pass) == true ? '' : 'Password must be at least 3 characters')
+							setPassword(pass)
+						}}
+						style={{
+							height: 40,
+							fontSize: fontSize.h2
+						}}
+						secureTextEntry={true}
+						placeholder="Re-Enter your password"
+						placeholderTextColor={colors.placeholder}
+
+					/>
+					<View style={{ width: '100%', height: 1, backgroundColor: colors.primary }} />
+					<Text style={{
+						color: colors.primary,
+						fontSize: fontSize.h5,
+						marginTop: 10,
+						fontWeight: 'bold'
+					}}>{errPassword}</Text>
+				</View>
 
 			</View>
 			{keyboardDidShow == false && <View style={{
-				flex: 20
+				flex: 10,
+				backgroundColor: 'purple'
 			}}>
 				<TouchableOpacity
-					disabled = {isValidationOK() == false}
-					
+					disabled={isValidationOK() == false}
+
 					onPress={() => {
 						alert(`Email: ${email} - Pass: ${password}`)
 					}}
@@ -155,7 +195,7 @@ const Login = (props) => {
 							fontWeight: 'bold',
 							fontSize: fontSize.h2
 						}}
-					>Login</Text>
+					>Register</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() => {
@@ -176,38 +216,40 @@ const Login = (props) => {
 			}
 
 			{keyboardDidShow == false && <View style={{
-				flex: 20,
-
+				flex: 25,
+				justifyContent: 'center',
+				backgroundColor: 'blue'
 			}}>
 				<View
 					style={{
 						height: 40,
 						flexDirection: 'row',
-						alignItems: 'center'
+						alignItems: 'center',
+
 					}}
 				>
-					<View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+					<View style={{ flex: 1, height: 1, backgroundColor: colors.white }} />
 					<Text style={{
 						padding: 8,
 						fontSize: fontSize.h5,
-						color: colors.black,
+						color: colors.white,
 						alignSelf: 'center',
 						marginHorizontal: 10
 					}}>Use other methods</Text>
-					<View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+					<View style={{ flex: 1, height: 1, backgroundColor: colors.white }} />
 				</View>
 				<View style={{
 					flexDirection: 'row',
 					justifyContent: 'center'
 				}}>
-					<Icon name='facebook' size={35} color={colors.facebook} />
+					<Icon name='facebook' size={35} color={colors.white} />
 					<View style={{ width: 15 }} />
-					<Icon name='google' size={35} color={colors.google} />
+					<Icon name='google' size={35} color={colors.white} />
 				</View>
 			</View>
 			}
 		</View>
-	</KeyboardAvoidingView>
+	</KeyboardAwareScrollView>
 }
 
-export default Login;
+export default Register;
