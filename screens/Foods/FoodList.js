@@ -217,9 +217,139 @@ const FoodList = (props) => {
 			]
 		}
 	])
+	const [categories, setCategories] = useState([
+		{
+			id: 1,
+			name: 'BBQ',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 2,
+			name: 'Breakfast',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 3,
+			name: 'Coffee',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 4,
+			name: 'Noodles',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 5,
+			name: 'Dinner',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 6,
+			name: 'Beverages',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 7,
+			name: 'Dessert',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 8,
+			name: 'Wine',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 9,
+			name: 'Wine',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 10,
+			name: 'Wine',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 11,
+			name: 'Wine',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 12,
+			name: 'Wine',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 13,
+			name: 'Wine',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 14,
+			name: 'Wine',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 15,
+			name: 'Wine',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		},
+		{
+			id: 16,
+			name: 'Wine',
+			url: 'https://img-global.cpcdn.com/recipes/90267c96d71f1775/640x640sq70/photo.webp'
+		}
+	])
+
 	return <View style={{
 		flex: 1
 	}}>
+		
+		<View style={{
+			height: 100,
+		}}>
+			<View style={{ height: 1, backgroundColor: colors.inactive }}></View>
+			<FlatList
+				horizontal
+				style={{ flex: 1 }}
+				data={categories}
+				renderItem={({ item }) => {
+					return <TouchableOpacity
+					 	onPress={() => {
+							 alert(`Press ${item.name}`)
+						 }}
+						style={{
+						margin: 10,
+						justifyContent: 'center',
+						alignItems: 'center',
+					}}>
+						<Image
+							style={{
+								width: 50,
+								height: 50,
+								resizeMode: 'cover',
+								borderRadius: 50,
+
+								backgroundColor: 'red'
+							}}
+							source={{
+								uri: item.url
+							}}
+						/>
+						<Text
+							style={{
+								color: colors.black,
+								fontSize: fontSize.h5,
+								marginTop: 8
+							}}>{item.name}</Text>
+					</TouchableOpacity>
+				}}
+				keyExtractor={item => item.id}
+			/>
+
+
+			<View style={{ height: 1, backgroundColor: colors.inactive }}></View>
+		</View>
+
 		{/* <ScrollView>
 			{
 				Foods.map((eachFood) => <FoodItem key={eachFood.id} Food = {eachFood}/>)
@@ -227,14 +357,14 @@ const FoodList = (props) => {
 		</ScrollView> */}
 		<FlatList
 			data={Foods}
-			renderItem={({item}) => {
+			renderItem={({ item }) => {
 				return <FoodItem
-							onPress={() => { alert(`Id: ${item.id} - Name: ${item.name}`)}}
-							food = {item}/>
+					onPress={() => { alert(`Id: ${item.id} - Name: ${item.name}`) }}
+					food={item} />
 			}}
 			keyExtractor={item => item.id}
 		/>
-	</View>
+	</View >
 }
 
 export default FoodList;
