@@ -16,7 +16,7 @@ import { isValidEmail, isValidPassword } from '../../utilies/Validations';
 import FoodItem from './FoodItem';
 
 const FoodList = (props) => {
-	const [Foods, setFoods] = useState([
+	const [foods, setFoods] = useState([
 		{
 			id: 1,
 			name: 'Pizza',
@@ -300,10 +300,53 @@ const FoodList = (props) => {
 		}
 	])
 
+	const [searchText, setSearchText] = useState('')
+
+	const filteredFoods = () => {
+		return foods.filter(eachFood => eachFood.name.toLowerCase().includes(searchText.toLowerCase()))
+	}
+
 	return <View style={{
 		flex: 1
 	}}>
-		
+		<View style={{
+			height: 50,
+			marginHorizontal: 10,
+			marginTop: 10,
+			marginBottom: 10,
+			flexDirection: 'row',
+			alignItems: 'center',
+			position: 'relative'
+		}}>
+			<Icon
+				name='search'
+				size={21}
+				color={'black'}
+				style={{
+					position: 'absolute',
+					top: 15,
+					left: 15,
+					zIndex: 999
+				}}
+			/>
+			<TextInput
+				autoCorrect={false}
+				onChangeText={(text) => {
+					setSearchText(text)
+				}}
+				style={{
+					backgroundColor: colors.inactive,
+					flex: 1,
+					marginEnd: 8,
+					borderRadius: 6,
+					opacity: .6,
+					paddingStart: 47,
+					color: colors.white,
+					fontSize: fontSize.h3
+				}}
+			/>
+			<Icon name='bars' size={35} color={colors.black} />
+		</View>
 		<View style={{
 			height: 100,
 		}}>
@@ -314,14 +357,14 @@ const FoodList = (props) => {
 				data={categories}
 				renderItem={({ item }) => {
 					return <TouchableOpacity
-					 	onPress={() => {
-							 alert(`Press ${item.name}`)
-						 }}
+						onPress={() => {
+							alert(`Press ${item.name}`)
+						}}
 						style={{
-						margin: 10,
-						justifyContent: 'center',
-						alignItems: 'center',
-					}}>
+							margin: 10,
+							justifyContent: 'center',
+							alignItems: 'center',
+						}}>
 						<Image
 							style={{
 								width: 50,
@@ -355,15 +398,24 @@ const FoodList = (props) => {
 				Foods.map((eachFood) => <FoodItem key={eachFood.id} Food = {eachFood}/>)
 			}
 		</ScrollView> */}
-		<FlatList
-			data={Foods}
+		{ filteredFoods().length > 0 ? <FlatList
+			data={filteredFoods()}
 			renderItem={({ item }) => {
 				return <FoodItem
 					onPress={() => { alert(`Id: ${item.id} - Name: ${item.name}`) }}
 					food={item} />
 			}}
 			keyExtractor={item => item.id}
-		/>
+		/> 
+		: <View style={{flex:1}}>
+			<Text style={{
+				textAlign: 'center',
+				color: colors.black,
+				fontSize: fontSize.h1,
+				marginTop: 20
+			}}>No found found!</Text>
+		</View>
+	}
 	</View >
 }
 
