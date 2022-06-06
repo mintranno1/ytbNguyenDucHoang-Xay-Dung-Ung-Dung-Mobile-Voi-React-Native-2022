@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
     Image,
     Text,
     TouchableOpacity,
     View
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { colors, fontSize, images } from '../../constants';
-import { isValidEmail, isValidPassword } from '../../utilies/Validations';
+import { colors, fontSize } from '../../constants';
 
 
 // function _getColorFromStatus(status){

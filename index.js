@@ -2,8 +2,8 @@
 import * as React from 'react';
 import { AppRegistry, Text } from 'react-native';
 import { name as appName } from './app.json';
-import {Welcome, Login, Register, FoodList} from './screens';
+import {Welcome, Login, Register, FoodList, ProductGridView} from './screens';
 
 AppRegistry.registerComponent(appName, 
-    () => () => <FoodList />
+    () => () => <ProductGridView />
 );
