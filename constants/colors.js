@@ -10,5 +10,8 @@ export default {
     success: 'rgb(7,161,79)',
     alert: 'rgb(236, 69, 90)',
     grayOp1: '#979491',
-    red: 'red'    
+    grayOp2: 'rgba(0,0,0,0.1)',
+    grayOp3: 'rgba(0,0,0,0.5)',
+    red: 'red',
+
 }

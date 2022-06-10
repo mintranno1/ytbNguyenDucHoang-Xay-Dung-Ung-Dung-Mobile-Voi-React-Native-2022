@@ -14,9 +14,10 @@ function FiveStars(props) {
     }}>
         {
             [0, 1, 2, 3, 4].map(item => <Icon
+                key={`${item}`}
                 name='star'
                 style={{
-                    
+
                 }}
                 size={17}
                 color={item <= numberOfStars - 1 ? colors.warning : colors.inactive}
